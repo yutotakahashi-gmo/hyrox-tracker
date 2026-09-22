@@ -187,16 +187,6 @@
 
   <!-- HOME -->
   <div class="tab-panel" id="panel-home">
-    <div class="card">
-      <h2>クイックアクセス</h2>
-      <div class="hint" id="homeSummary"></div>
-      <div class="quicknav">
-        <button data-goto="add">記録を追加</button>
-        <button data-goto="history">履歴を見る</button>
-        <button data-goto="pb">ベスト記録</button>
-        <button data-goto="guide">ルールを確認</button>
-      </div>
-    </div>
     <div style="text-align:center; margin: 4px 0 14px;">
       <iframe
         src="https://www.instagram.com/p/DYHjjBViUVp/embed/"
@@ -260,7 +250,7 @@
 
     <div class="card">
       <h2>ミックスダブルス 基本構成</h2>
-      <p class="hint">男怦1名＋女怦1名の2人チーム。<b>1kmラン×8本</b>と<b>8種目のステーション</b>をランと交互に実施(ラン→種目1→ラン→種目2…)。</p>
+      <p class="hint">男性1名＋女性1名の2人チーム。<b>1kmラン×8本</b>と<b>8種目のステーション</b>をランと交互に実施(ラン→種目1→ラン→種目2…)。</p>
       <table class="guide-table">
         <tr><th>順番</th><th>種目</th><th>Men's Open</th><th>Women's Open</th></tr>
         <tr><td>1</td><td>SkiErg</td><td colspan="2">1000m (男女共通)</td></tr>
@@ -528,14 +518,8 @@
 
   // ---------- Home ----------
   function renderHome() {
-    var pbs = computePBs(sessions);
-    var pbCount = Object.keys(pbs).length;
-    document.getElementById("homeSummary").innerHTML =
-      "現在: <b>" + escapeHtml(currentPlayer) + "</b> ／ 記録数: <b>" + sessions.length + "</b>件 ／ ベスト記録登録済み: <b>" + pbCount + "</b>種目";
+    // no-op: home is Instagram embed only
   }
-  document.querySelectorAll(".quicknav button").forEach(function(b){
-    b.addEventListener("click", function(){ switchTab(b.dataset.goto); });
-  });
 
   // ---------- Tabs ----------
   var tabsEl = document.getElementById("tabs");
