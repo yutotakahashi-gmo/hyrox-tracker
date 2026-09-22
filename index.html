@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMwMDAiLz4KPGcgZmlsbD0iI2ZmZiI+CjxyZWN0IHg9IjYiIHk9IjM2IiB3aWR0aD0iMTYiIGhlaWdodD0iMjgiIHJ4PSIzIi8+CjxyZWN0IHg9IjIyIiB5PSI0NCIgd2lkdGg9IjciIGhlaWdodD0iMTIiLz4KPHJlY3QgeD0iMjkiIHk9IjQzIiB3aWR0aD0iNDIiIGhlaWdodD0iMTQiIHJ4PSIyIi8+CjxyZWN0IHg9IjcxIiB5PSI0NCIgd2lkdGg9IjciIGhlaWdodD0iMTIiLz4KPHJlY3QgeD0iNzgiIHk9IjM2IiB3aWR0aD0iMTYiIGhlaWdodD0iMjgiIHJ4PSIzIi8+CjwvZz4KPC9zdmc+">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <title>Hyrox トレーニング記録</title>
 <style>
   :root {
@@ -145,6 +148,23 @@
     padding:3px 8px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px;
   }
   .feature-card p { font-size: 13px; color: var(--sub); line-height:1.6; margin: 6px 0 12px; }
+  .countdown-hero {
+    text-align:center; padding: 20px 12px 22px; margin: 4px 0 16px;
+    background: var(--card); border: 1px solid var(--border);
+    background-image: linear-gradient(180deg, rgba(255,237,0,.08), transparent 60%);
+  }
+  .countdown-hero .label {
+    font-size: 13px; color: var(--sub); text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+  }
+  .countdown-hero .days {
+    font-family: 'Anton', "Hiragino Sans", sans-serif; font-weight: 400;
+    font-size: 88px; line-height: 1; color: var(--accent); margin: 6px 0 0;
+    letter-spacing: 1px; text-shadow: 0 0 24px rgba(255,237,0,.35);
+  }
+  .countdown-hero .unit {
+    font-family: 'Anton', "Hiragino Sans", sans-serif;
+    font-size: 20px; color: var(--text); letter-spacing: 3px; margin-top: 2px;
+  }
 </style>
 </head>
 <body>
@@ -170,6 +190,7 @@
 
   <!-- HOME -->
   <div class="tab-panel" id="panel-home">
+    <div class="countdown-hero" id="homeCountdown"></div>
     <div style="width:100%; max-width:540px; margin:4px auto 14px;">
       <iframe
         src="https://www.instagram.com/p/DYHjjBViUVp/embed/"
@@ -545,7 +566,25 @@
 
   // ---------- Home ----------
   function renderHome() {
-    // no-op: home is Instagram embed only
+    var wrap = document.getElementById("homeCountdown");
+    if (!wrap) return;
+    var raceDate = loadRaceDate();
+    if (!raceDate) {
+      wrap.innerHTML = '<div class="label">\u{1F525} \u5927\u4f1a\u307e\u3067</div>' +
+        '<div class="hint" style="margin-top:8px;">\u30ec\u30fc\u30b9\u65e5\u3092\u8a2d\u5b9a\u30bf\u30d6\u3067\u767b\u9332\u3057\u3066\u304f\u3060\u3055\u3044</div>';
+      return;
+    }
+    var today = new Date(todayISO());
+    var race = new Date(raceDate);
+    var days = Math.ceil((race - today) / 86400000);
+    if (days >= 0) {
+      wrap.innerHTML = '<div class="label">\u{1F525} \u5927\u4f1a\u307e\u3067</div>' +
+        '<div class="days">' + days + '</div>' +
+        '<div class="unit">DAYS</div>';
+    } else {
+      wrap.innerHTML = '<div class="label">\u{1F525} HYROX</div>' +
+        '<div class="unit" style="font-size:26px; margin-top:10px;">\u5f00\u50ac\u6e08\u307f</div>';
+    }
   }
 
   // ---------- Tabs ----------
@@ -747,6 +786,7 @@
   document.getElementById("saveSettingsBtn").addEventListener("click", function(){
     saveRaceDate(document.getElementById("s-racedate").value);
     renderCountdown();
+    renderHome();
     var b = document.getElementById("saveSettingsBtn");
     var orig = b.textContent; b.textContent = "保存しました";
     setTimeout(function(){ b.textContent = orig; }, 1200);
