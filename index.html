@@ -125,14 +125,18 @@
     padding: 2px 7px; border-radius: 0; text-transform: uppercase; margin-right:6px;
   }
   ul.plain { margin: 6px 0 6px 18px; padding:0; font-size: 13px; line-height:1.6; }
-  .linklist { display:flex; flex-direction:column; gap:10px; }
+  .linklist { display:flex; flex-direction:column; gap:10px; min-width:0; }
   .linkcard {
     display:flex; flex-direction:column; gap:2px; padding:13px 14px; border:1px solid var(--border);
     border-radius:2px; background: var(--bg2); text-decoration:none; color: var(--text);
+    overflow: hidden; max-width: 100%; min-width: 0;
   }
-  .linkcard .lt { font-weight:800; font-size:14px; color: var(--text); }
-  .linkcard .ld { font-size:12px; color: var(--sub); }
-  .linkcard .lu { font-size:11px; color: var(--sub); margin-top:2px; }
+  .linkcard .lt { font-weight:800; font-size:14px; color: var(--text); overflow-wrap: anywhere; word-break: break-word; }
+  .linkcard .ld { font-size:12px; color: var(--sub); overflow-wrap: anywhere; word-break: break-word; }
+  .linkcard .lu {
+    display:block; width:100%; min-width:0; font-size:11px; color: var(--sub); margin-top:2px;
+    overflow-wrap: anywhere; word-break: break-all; white-space: normal;
+  }
   .hero-sub { font-size: 13px; color: var(--sub); padding: 10px 0 4px; }
   .quicknav { display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px; }
   .quicknav button {
@@ -183,7 +187,6 @@
     <button data-tab="pb">ベスト記録</button>
     <button data-tab="stats">統計</button>
     <button data-tab="guide">ガイド</button>
-    <button data-tab="rules">規格</button>
     <button data-tab="links">リンク</button>
     <button data-tab="settings">設定</button>
   </div>
@@ -271,11 +274,37 @@
     </div>
 
     <div class="card">
+      <h2>8種目の内容(実施順) — Open部門</h2>
+      <table class="guide-table">
+        <tr><th>順番</th><th>種目</th><th>規定(Open部門)</th></tr>
+        <tr><td>1</td><td>SkiErg</td><td>1000m</td></tr>
+        <tr><td>2</td><td>Sled Push(スレッド押し)</td><td>152kg／50m</td></tr>
+        <tr><td>3</td><td>Sled Pull(スレッド引き)</td><td>103kg／50m</td></tr>
+        <tr><td>4</td><td>Burpee Broad Jumps</td><td>80m</td></tr>
+        <tr><td>5</td><td>Row(ローイング)</td><td>1000m</td></tr>
+        <tr><td>6</td><td>Farmers Carry</td><td>24kg×2個／200m</td></tr>
+        <tr><td>7</td><td>Sandbag Lunges</td><td>20kg／100m</td></tr>
+        <tr><td>8</td><td>Wall Balls</td><td>6kgボール／100回</td></tr>
+      </table>
+      <p class="hint">上記は男女共通の「規定(Open部門)」表記の簡易版。男女別の詳細な重量差は上の表を参照。</p>
+    </div>
+
+    <div class="card">
       <h2>併走・入退場ルール(初心者が最初に押さえる3つ)</h2>
       <ul class="plain">
         <li><b>ランは必ず一緒に走る</b> — 間隔が開くとペナルティ対象</li>
         <li><b>ステーションの出入りも2人同時</b> — 片方だけ先行/先に退出はNG</li>
         <li><b>ペナルティ3回累積で Out of Competition</b>(順位対象外)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>ダブルス特有の交代・注意点</h2>
+      <ul class="plain">
+        <li>交代(タグイン/タグアウト)の位置を事前に決めておく — ステーション内は1人ずつしか作業できないため、スムーズな交代がタイムロス防止に直結</li>
+        <li>重い種目(Farmers Carry・Sandbag Lunges)の担当を練習で確認 — 男女で体力差があっても同じ重量を扱う場面があるため</li>
+        <li>ペース走の練習を重視 — フォームより「2人で離れない」ことが減点回避の鍵</li>
+        <li>完走優先の意識 — DQ変更により、無理な追い込みより完了を目指す方が安全</li>
       </ul>
     </div>
 
@@ -347,48 +376,6 @@
         <li>移動・交代・給水: 5〜10分</li>
       </ul>
       <p class="hint">速い方に合わせるのではなく、<b>遅い方が最後まで維持できるランペース</b>に合わせるのが鍵。序盤で速く走りすぎると終盤のランジ/ウォールボールで失速しやすい。本番前に「1kmラン+ワークアウト」を4〜6周行い、所要時間から完走タイムを予測する練習も有効。</p>
-    </div>
-
-  </div>
-
-  <!-- RULES -->
-  <div class="tab-panel" id="panel-rules" style="display:none">
-
-    <div class="card">
-      <h2>ミックスダブルス 基本構成</h2>
-      <p class="hint">男性1名＋女性1名の2人チーム。<b>1kmラン×8本</b>と<b>8種目のステーション</b>をランと交互に実施(ラン→種目1→ラン→種目2…)。</p>
-      <table class="guide-table">
-        <tr><th>順番</th><th>種目</th><th>Men's Open</th><th>Women's Open</th></tr>
-        <tr><td>1</td><td>SkiErg</td><td colspan="2">1000m (男女共通)</td></tr>
-        <tr><td>2</td><td>Sled Push</td><td>152kg / 50m</td><td>102kg / 50m</td></tr>
-        <tr><td>3</td><td>Sled Pull</td><td>103kg / 50m</td><td>78kg / 50m</td></tr>
-        <tr><td>4</td><td>Burpee Broad Jumps</td><td colspan="2">80m (男女共通)</td></tr>
-        <tr><td>5</td><td>Row</td><td colspan="2">1000m (男女共通)</td></tr>
-        <tr><td>6</td><td>Farmers Carry</td><td>24kg×2 / 200m</td><td>16kg×2 / 200m</td></tr>
-        <tr><td>7</td><td>Sandbag Lunges</td><td>20kg / 100m</td><td>10kg / 100m</td></tr>
-        <tr><td>8</td><td>Wall Balls</td><td>6kg / 100回 (3.00m)</td><td>4kg / 100回 (2.70m)</td></tr>
-      </table>
-      <p class="hint">Pro部門はさらに重量設定が上がる(例: Wall Balls 9kg、Sandbag Lunges 30kg など)。<br>
-      <span class="badge">26/27〜</span> ワークアウト未完了は即DQ(以前はペナルティのみ)。無理な重量より完走優先。</p>
-    </div>
-
-    <div class="card">
-      <h2>併走・入退場ルール(初心者が最初に押さえる3つ)</h2>
-      <ul class="plain">
-        <li><b>ランは必ず一緒に走る</b> — 間隔が開くとペナルティ対象</li>
-        <li><b>ステーションの出入りも2人同時</b> — 片方だけ先行/先に退出はNG</li>
-        <li><b>ペナルティ3回累積で Out of Competition</b>(順位対象外)</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>ダブルス特有の交代・注意点</h2>
-      <ul class="plain">
-        <li>交代(タグイン/タグアウト)の位置を事前に決めておく — ステーション内は1人ずつしか作業できないため、スムーズな交代がタイムロス防止に直結</li>
-        <li>重い種目(Farmers Carry・Sandbag Lunges)の担当を練習で確認 — 男女で体力差があっても同じ重量を扱う場面があるため</li>
-        <li>ペース走の練習を重視 — フォームより「2人で離れない」ことが減点回避の鍵</li>
-        <li>完走優先の意識 — DQ変更により、無理な追い込みより完了を目指す方が安全</li>
-      </ul>
     </div>
 
   </div>
