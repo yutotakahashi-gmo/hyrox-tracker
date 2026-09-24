@@ -1,12 +1,13 @@
-
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMwMDAiLz4KPGcgZmlsbD0iI2ZmZiI+CjxyZWN0IHg9IjYiIHk9IjM2IiB3aWR0aD0iMTYiIGhlaWdodD0iMjgiIHJ4PSIzIi8+CjxyZWN0IHg9IjIyIiB5PSI0NCIgd2lkdGg9IjciIGhlaWdodD0iMTIiLz4KPHJlY3QgeD0iMjkiIHk9IjQzIiB3aWR0aD0iNDIiIGhlaWdodD0iMTQiIHJ4PSIyIi8+CjxyZWN0IHg9IjcxIiB5PSI0NCIgd2lkdGg9IjciIGhlaWdodD0iMTIiLz4KPHJlY3QgeD0iNzgiIHk9IjM2IiB3aWR0aD0iMTYiIGhlaWdodD0iMjgiIHJ4PSIzIi8+CjwvZz4KPC9zdmc+">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABX0lEQVR4nO3dy26DMBRFUVz1/3/ZHVaKdIppTXxx1xqj8LhbHpBYOQ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAidr4ob33CedrF87IizePYPS4KZf1fVaJXPf+EXyMfNDcy7rjA7e3ZATncdw0SH2MWzWCoZWD/0kcROIgEgeROIjEQSQOInEQfa6+gHO7vi6r/x1C9ZVj1zKO4+i9F7+783iL3wB/8fPqVX3lYCFxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIFq5b2Vk48b2v32v/BCsHETV46i/LezXWmvF7+4B2yGLP8GNVV85WEgcROIgEgeROIjEQSQOovM4bnrN4O3FuFUjsHIQDcUxvVzLxlVLRuCfmp7ECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHiAL+7XP2xWDpFkAAAAAElFTkSuQmCC">
 <title>Hyrox トレーニング記録</title>
 <style>
   :root {
@@ -65,6 +66,12 @@ Index · HTML
     white-space: nowrap; cursor: pointer; text-transform: uppercase; letter-spacing:.3px;
   }
   .tabs button.active { background: var(--accent); color: var(--onaccent); border-color: var(--accent); }
+  .tab-break { display: none; }
+  @media (max-width: 768px) {
+    .tabs { flex-wrap: wrap; overflow-x: visible; row-gap: 6px; }
+    .tabs button { flex: 1 1 auto; }
+    .tab-break { display: block; flex-basis: 100%; width: 0; height: 0; margin: 0; padding: 0; }
+  }
   .card {
     background: var(--card); border: 1px solid var(--border); border-radius: 2px;
     padding: 16px; margin-bottom: 14px;
@@ -125,14 +132,18 @@ Index · HTML
     padding: 2px 7px; border-radius: 0; text-transform: uppercase; margin-right:6px;
   }
   ul.plain { margin: 6px 0 6px 18px; padding:0; font-size: 13px; line-height:1.6; }
-  .linklist { display:flex; flex-direction:column; gap:10px; }
+  .linklist { display:flex; flex-direction:column; gap:10px; min-width:0; }
   .linkcard {
     display:flex; flex-direction:column; gap:2px; padding:13px 14px; border:1px solid var(--border);
     border-radius:2px; background: var(--bg2); text-decoration:none; color: var(--text);
+    overflow: hidden; max-width: 100%; min-width: 0;
   }
-  .linkcard .lt { font-weight:800; font-size:14px; color: var(--text); }
-  .linkcard .ld { font-size:12px; color: var(--sub); }
-  .linkcard .lu { font-size:11px; color: var(--sub); margin-top:2px; }
+  .linkcard .lt { font-weight:800; font-size:14px; color: var(--text); overflow-wrap: anywhere; word-break: break-word; }
+  .linkcard .ld { font-size:12px; color: var(--sub); overflow-wrap: anywhere; word-break: break-word; }
+  .linkcard .lu {
+    display:block; width:100%; min-width:0; font-size:11px; color: var(--sub); margin-top:2px;
+    overflow-wrap: anywhere; word-break: break-all; white-space: normal;
+  }
   .hero-sub { font-size: 13px; color: var(--sub); padding: 10px 0 4px; }
   .quicknav { display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px; }
   .quicknav button {
@@ -148,6 +159,23 @@ Index · HTML
     padding:3px 8px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px;
   }
   .feature-card p { font-size: 13px; color: var(--sub); line-height:1.6; margin: 6px 0 12px; }
+  .countdown-hero {
+    text-align:center; padding: 20px 12px 22px; margin: 4px 0 16px;
+    background: var(--card); border: 1px solid var(--border);
+    background-image: linear-gradient(180deg, rgba(255,237,0,.08), transparent 60%);
+  }
+  .countdown-hero .label {
+    font-size: 13px; color: var(--sub); text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+  }
+  .countdown-hero .days {
+    font-family: 'Anton', "Hiragino Sans", sans-serif; font-weight: 400;
+    font-size: 88px; line-height: 1; color: var(--accent); margin: 6px 0 0;
+    letter-spacing: 1px; text-shadow: 0 0 24px rgba(255,237,0,.35);
+  }
+  .countdown-hero .unit {
+    font-family: 'Anton', "Hiragino Sans", sans-serif;
+    font-size: 20px; color: var(--text); letter-spacing: 3px; margin-top: 2px;
+  }
 </style>
 </head>
 <body>
@@ -165,20 +193,40 @@ Index · HTML
     <button data-tab="history">履歴</button>
     <button data-tab="pb">ベスト記録</button>
     <button data-tab="stats">統計</button>
+    <div class="tab-break"></div>
     <button data-tab="guide">ガイド</button>
-    <button data-tab="rules">規格</button>
+    <button data-tab="candidates">候補地</button>
     <button data-tab="links">リンク</button>
     <button data-tab="settings">設定</button>
   </div>
  
   <!-- HOME -->
   <div class="tab-panel" id="panel-home">
+    <div class="countdown-hero" id="homeCountdown"></div>
     <div style="width:100%; max-width:540px; margin:4px auto 14px;">
       <iframe
         src="https://www.instagram.com/p/DYHjjBViUVp/embed/"
-        width="100%" height="1050" frameborder="0" scrolling="no"
+        width="100%" height="880" frameborder="0" scrolling="no"
         allowtransparency="true" loading="lazy"
-        style="border:none; display:block; width:100%; height:1050px;">
+        style="border:none; display:block; width:100%; height:880px;">
+      </iframe>
+    </div>
+    <div style="width:100%; max-width:540px; margin:0 auto 14px; aspect-ratio:16/9;">
+      <iframe
+        src="https://www.youtube.com/embed/_ZtEwcOfe9o"
+        width="100%" height="100%" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" loading="lazy"
+        style="border:none; display:block; width:100%; height:100%;">
+      </iframe>
+    </div>
+    <div style="width:100%; max-width:540px; margin:0 auto 14px; aspect-ratio:16/9;">
+      <iframe
+        src="https://www.youtube.com/embed/KY7jAm9RJ6k"
+        width="100%" height="100%" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" loading="lazy"
+        style="border:none; display:block; width:100%; height:100%;">
       </iframe>
     </div>
   </div>
@@ -253,11 +301,37 @@ Index · HTML
     </div>
  
     <div class="card">
+      <h2>8種目の内容(実施順) — Open部門</h2>
+      <table class="guide-table">
+        <tr><th>順番</th><th>種目</th><th>規定(Open部門)</th></tr>
+        <tr><td>1</td><td>SkiErg</td><td>1000m</td></tr>
+        <tr><td>2</td><td>Sled Push(スレッド押し)</td><td>152kg／50m</td></tr>
+        <tr><td>3</td><td>Sled Pull(スレッド引き)</td><td>103kg／50m</td></tr>
+        <tr><td>4</td><td>Burpee Broad Jumps</td><td>80m</td></tr>
+        <tr><td>5</td><td>Row(ローイング)</td><td>1000m</td></tr>
+        <tr><td>6</td><td>Farmers Carry</td><td>24kg×2個／200m</td></tr>
+        <tr><td>7</td><td>Sandbag Lunges</td><td>20kg／100m</td></tr>
+        <tr><td>8</td><td>Wall Balls</td><td>6kgボール／100回</td></tr>
+      </table>
+      <p class="hint">上記は男女共通の「規定(Open部門)」表記の簡易版。男女別の詳細な重量差は上の表を参照。</p>
+    </div>
+ 
+    <div class="card">
       <h2>併走・入退場ルール(初心者が最初に押さえる3つ)</h2>
       <ul class="plain">
         <li><b>ランは必ず一緒に走る</b> — 間隔が開くとペナルティ対象</li>
         <li><b>ステーションの出入りも2人同時</b> — 片方だけ先行/先に退出はNG</li>
         <li><b>ペナルティ3回累積で Out of Competition</b>(順位対象外)</li>
+      </ul>
+    </div>
+ 
+    <div class="card">
+      <h2>ダブルス特有の交代・注意点</h2>
+      <ul class="plain">
+        <li>交代(タグイン/タグアウト)の位置を事前に決めておく — ステーション内は1人ずつしか作業できないため、スムーズな交代がタイムロス防止に直結</li>
+        <li>重い種目(Farmers Carry・Sandbag Lunges)の担当を練習で確認 — 男女で体力差があっても同じ重量を扱う場面があるため</li>
+        <li>ペース走の練習を重視 — フォームより「2人で離れない」ことが減点回避の鍵</li>
+        <li>完走優先の意識 — DQ変更により、無理な追い込みより完了を目指す方が安全</li>
       </ul>
     </div>
  
@@ -333,44 +407,111 @@ Index · HTML
  
   </div>
  
-  <!-- RULES -->
-  <div class="tab-panel" id="panel-rules" style="display:none">
+  <!-- CANDIDATES -->
+  <div class="tab-panel" id="panel-candidates" style="display:none">
  
     <div class="card">
-      <h2>ミックスダブルス 基本構成</h2>
-      <p class="hint">男性1名＋女性1名の2人チーム。<b>1kmラン×8本</b>と<b>8種目のステーション</b>をランと交互に実施(ラン→種目1→ラン→種目2…)。</p>
-      <table class="guide-table">
-        <tr><th>順番</th><th>種目</th><th>Men's Open</th><th>Women's Open</th></tr>
-        <tr><td>1</td><td>SkiErg</td><td colspan="2">1000m (男女共通)</td></tr>
-        <tr><td>2</td><td>Sled Push</td><td>152kg / 50m</td><td>102kg / 50m</td></tr>
-        <tr><td>3</td><td>Sled Pull</td><td>103kg / 50m</td><td>78kg / 50m</td></tr>
-        <tr><td>4</td><td>Burpee Broad Jumps</td><td colspan="2">80m (男女共通)</td></tr>
-        <tr><td>5</td><td>Row</td><td colspan="2">1000m (男女共通)</td></tr>
-        <tr><td>6</td><td>Farmers Carry</td><td>24kg×2 / 200m</td><td>16kg×2 / 200m</td></tr>
-        <tr><td>7</td><td>Sandbag Lunges</td><td>20kg / 100m</td><td>10kg / 100m</td></tr>
-        <tr><td>8</td><td>Wall Balls</td><td>6kg / 100回 (3.00m)</td><td>4kg / 100回 (2.70m)</td></tr>
-      </table>
-      <p class="hint">Pro部門はさらに重量設定が上がる(例: Wall Balls 9kg、Sandbag Lunges 30kg など)。<br>
-      <span class="badge">26/27〜</span> ワークアウト未完了は即DQ(以前はペナルティのみ)。無理な重量より完走優先。</p>
+      <h2>アジア太平洋のHYROX大会一覧</h2>
+      <p class="hint">HYROX公式 <a href="https://hyrox.com/find-my-race/?filter_continent=asia-pacific" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:none;">Find My Race(Asia-Pacificフィルター)</a> に掲載されている全19大会。Singles／Doubles／Spectatorの在庫状況は2026年9月22日時点でチケット販売サイト上のカテゴリ表示を確認したもの(常に変動するため最終確認は申込画面で)。</p>
     </div>
  
     <div class="card">
-      <h2>併走・入退場ルール(初心者が最初に押さえる3つ)</h2>
-      <ul class="plain">
-        <li><b>ランは必ず一緒に走る</b> — 間隔が開くとペナルティ対象</li>
-        <li><b>ステーションの出入りも2人同時</b> — 片方だけ先行/先に退出はNG</li>
-        <li><b>ペナルティ3回累積で Out of Competition</b>(順位対象外)</li>
-      </ul>
+      <h2>チケット販売中(9大会)</h2>
+      <div class="linklist">
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-shanghai-1031/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">ZhongAn HYROX Shanghai(10/31〜11/1 2026)</span>
+          <span class="ld">Singles: <b style="color:var(--bad);">SOLD OUT</b> ／ Doubles: <b style="color:var(--bad);">SOLD OUT</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/hyrox-shanghai-1031 →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-seoul/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">AirAsia HYROX Seoul(11/13〜15 2026)</span>
+          <span class="ld">Singles: <b style="color:#ff9d3f;">残りわずか</b> ／ Doubles: <b style="color:#ff9d3f;">残りわずか</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/hyrox-seoul →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/aia-hyrox-singapore/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">AIA HYROX Singapore(11/26〜29 2026)</span>
+          <span class="ld">Singles: <b style="color:#ff9d3f;">残りわずか</b> ／ Doubles: <b style="color:var(--bad);">SOLD OUT</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/aia-hyrox-singapore →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/30454/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">24/7 Fitness HYROX Sanya(12/5〜6 2026)</span>
+          <span class="ld">Singles: <b style="color:var(--bad);">SOLD OUT</b> ／ Doubles: <b style="color:var(--bad);">SOLD OUT</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/30454 →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-melbourne/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">BYD HYROX Melbourne(12/9〜13 2026)</span>
+          <span class="ld">Singles: <b style="color:#ff9d3f;">残りわずか</b> ／ Doubles: <b style="color:var(--bad);">SOLD OUT</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/hyrox-melbourne →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-kuala-lumpur/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">AirAsia HYROX Kuala Lumpur(12/10〜13 2026)</span>
+          <span class="ld">Singles: <b style="color:#ff9d3f;">残りわずか</b> ／ Doubles: <b style="color:#ff9d3f;">残りわずか</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/hyrox-kuala-lumpur →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-hong-kong/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">AIA HYROX Hong Kong(1/7〜10 2027)</span>
+          <span class="ld">Singles: <b style="color:#ff9d3f;">残りわずか</b> ／ Doubles: <b style="color:#ff9d3f;">残りわずか</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/hyrox-hong-kong →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/byd-hyrox-osaka/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">BYD HYROX Osaka(1/21〜25 2027)</span>
+          <span class="ld">Singles: <b style="color:#ff9d3f;">残りわずか</b> ／ Doubles: <b style="color:var(--bad);">SOLD OUT</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/byd-hyrox-osaka →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-auckland/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">BYD HYROX Auckland(2/4〜7 2027)</span>
+          <span class="ld">Singles: <b style="color:#ff9d3f;">残りわずか</b> ／ Doubles: <b style="color:#ffed00;">少し在庫あり</b> ／ Spectator: <b style="color:var(--good);">在庫あり</b></span>
+          <span class="lu">hyrox.com/event/hyrox-auckland →</span>
+        </a>
+      </div>
+      <p class="hint">Singles・Doublesはほぼ全会場で完売または残りわずか。比較的余裕があるのはオークランド(Doubles少し在庫あり)。Relayは大半が完売。Spectator(観客)チケットはどの会場も在庫あり。</p>
     </div>
  
     <div class="card">
-      <h2>ダブルス特有の交代・注意点</h2>
-      <ul class="plain">
-        <li>交代(タグイン/タグアウト)の位置を事前に決めておく — ステーション内は1人ずつしか作業できないため、スムーズな交代がタイムロス防止に直結</li>
-        <li>重い種目(Farmers Carry・Sandbag Lunges)の担当を練習で確認 — 男女で体力差があっても同じ重量を扱う場面があるため</li>
-        <li>ペース走の練習を重視 — フォームより「2人で離れない」ことが減点回避の鍵</li>
-        <li>完走優先の意識 — DQ変更により、無理な追い込みより完了を目指す方が安全</li>
-      </ul>
+      <h2>まだ販売開始前の大会(10大会)</h2>
+      <div class="linklist">
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-guangzhou/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">HYROX Guangzhou(11/21〜22 2026)</span>
+          <span class="lu">hyrox.com/event/hyrox-guangzhou →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-gujarat/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">HYROX Gujarat(11/26〜28 2026)</span>
+          <span class="lu">hyrox.com/event/hyrox-gujarat →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-noida/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">HYROX Noida(1/15〜17 2027)</span>
+          <span class="lu">hyrox.com/event/hyrox-noida →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-bangkok/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">BYD HYROX Bangkok(2/11〜14 2027)</span>
+          <span class="lu">hyrox.com/event/hyrox-bangkok →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-taipei/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">HYROX Taipei(3/12〜14 2027)</span>
+          <span class="lu">hyrox.com/event/hyrox-taipei →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-brisbane/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">BYD HYROX Brisbane(3/31〜4/4 2027)</span>
+          <span class="lu">hyrox.com/event/hyrox-brisbane →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-nagoya/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">HYROX Nagoya(4/16〜18 2027)</span>
+          <span class="lu">hyrox.com/event/hyrox-nagoya →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-bengaluru/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">HYROX Bengaluru(5/12〜16 2027)</span>
+          <span class="lu">hyrox.com/event/hyrox-bengaluru →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/hyrox-incheon/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">BYD HYROX Incheon(5/13〜16 2027)</span>
+          <span class="lu">hyrox.com/event/hyrox-incheon →</span>
+        </a>
+        <a class="linkcard" href="https://hyrox.com/event/puma-hyrox-world-championships-hong-kong/" target="_blank" rel="noopener noreferrer">
+          <span class="lt">PUMA HYROX World Championships Hong Kong(6/10〜13 2027)</span>
+          <span class="lu">hyrox.com/event/puma-hyrox-world-championships-hong-kong →</span>
+        </a>
+      </div>
+      <p class="hint">上記はHYROX公式サイトで「FIND OUT MORE」表示のみで、チケット販売はまだ始まっていない(2026年9月22日時点)。</p>
     </div>
  
   </div>
@@ -548,7 +689,25 @@ Index · HTML
  
   // ---------- Home ----------
   function renderHome() {
-    // no-op: home is Instagram embed only
+    var wrap = document.getElementById("homeCountdown");
+    if (!wrap) return;
+    var raceDate = loadRaceDate();
+    if (!raceDate) {
+      wrap.innerHTML = '<div class="label">\u{1F525} \u5927\u4f1a\u307e\u3067</div>' +
+        '<div class="hint" style="margin-top:8px;">\u30ec\u30fc\u30b9\u65e5\u3092\u8a2d\u5b9a\u30bf\u30d6\u3067\u767b\u9332\u3057\u3066\u304f\u3060\u3055\u3044</div>';
+      return;
+    }
+    var today = new Date(todayISO());
+    var race = new Date(raceDate);
+    var days = Math.ceil((race - today) / 86400000);
+    if (days >= 0) {
+      wrap.innerHTML = '<div class="label">\u{1F525} \u5927\u4f1a\u307e\u3067</div>' +
+        '<div class="days">' + days + '</div>' +
+        '<div class="unit">DAYS</div>';
+    } else {
+      wrap.innerHTML = '<div class="label">\u{1F525} HYROX</div>' +
+        '<div class="unit" style="font-size:26px; margin-top:10px;">\u5f00\u50ac\u6e08\u307f</div>';
+    }
   }
  
   // ---------- Tabs ----------
@@ -750,6 +909,7 @@ Index · HTML
   document.getElementById("saveSettingsBtn").addEventListener("click", function(){
     saveRaceDate(document.getElementById("s-racedate").value);
     renderCountdown();
+    renderHome();
     var b = document.getElementById("saveSettingsBtn");
     var orig = b.textContent; b.textContent = "保存しました";
     setTimeout(function(){ b.textContent = orig; }, 1200);
